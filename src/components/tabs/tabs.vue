@@ -7,19 +7,23 @@
     </div>
 </template>
 <script>
-export default {
-  
-}
+export default {};
 </script>
 <style lang="scss" scoped>
-    .tabs{
-        width: 100%;
-        display: flex;
-        height: 40px;
-        line-height: 40px;
-        .tab-item{
-            flex: 1 4;
-            text-align: center;
-        }
+@import "../../commom/css/variable.scss";
+.tabs {
+  width: 100%;
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  padding-bottom: 10px;
+  .tab-item {
+    flex: 1 4;
+    text-align: center;
+    &.router-link-active {
+      color: $color-theme;
+      border-bottom: 2px solid $color-theme;
     }
+  }
+}
 </style>

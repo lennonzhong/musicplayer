@@ -4,7 +4,6 @@ export function jsonp(url, data, option) {
     return new Promise((resolve, reject) => {
         let dataStr = getDataStr(data);
         url += dataStr;
-        console.log(dataStr);
         originJSONP(url, option, (err, data) => {
             if (err) {
                 reject(err);
