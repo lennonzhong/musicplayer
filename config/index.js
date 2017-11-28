@@ -14,7 +14,7 @@ module.exports = {
       '/api/getDislist': {
         target: 'http://m.kugou.com/?json=true',
         changeOrigin: true,
-      },
+      }
     },
 
     // Various Dev Server settings

@@ -16,7 +16,10 @@
         <div class="wrapper" ref="wrapper"> 
           <ul class="content"> 
             <li v-for="item in toprankList">
-                <p>{{item.filename}}</p>
+                <p>
+                  <span class="icon-music"></span>
+                  {{item.filename}}
+                  </p>
             </li> 
           </ul> 
         </div>
@@ -33,7 +36,8 @@ export default {
   data() {
     return {
       sliders: [],
-      toprankList: []
+      toprankList: [],
+      songList:[]
     };
   },
   mounted() {},
@@ -93,7 +97,6 @@ export default {
 <style lang="scss" scoped>
 .tuijian {
   width: 100%;
-  padding-bottom: 10px;
   .swiper-container {
     width: 100%;
     .swiper-slide {
@@ -118,13 +121,19 @@ export default {
 
   .wrapper {
     position: absolute;
-    left: 0;
-    bottom: 0;
+    
+    
     padding-bottom: 20px;
     overflow: hidden;
-    height: 376px;
+    top: 280px;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
   p {
+    span{
+      margin-right: 5px;
+    }
     padding: 4px 30px;
     height: 20px;
     line-height: 28px;

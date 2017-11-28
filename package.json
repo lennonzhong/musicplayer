@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "better-scroll": "^1.5.0",
+    "better-scroll": "^1.5.1",
     "jsonp": "^0.2.1",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
