@@ -8,6 +8,7 @@
                 </a>
             </div>
           </div>
+           <div class="swiper-pagination"></div>
         </div>
     </div>
 </template>
@@ -35,7 +36,10 @@ export default {
 
     _initSlider() {
       var mySwiper = new Swiper(".swiper-container", {
-        autoplay: 2000 //可选选项，自动滑动
+        autoplay: 2000, //可选选项，自动滑动
+        pagination : '.swiper-pagination',
+        paginationType : 'fraction',
+        paginationClickable :true,
       });
     }
   },
