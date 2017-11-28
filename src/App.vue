@@ -2,15 +2,17 @@
   <div id="app">
     <mheader></mheader>
     <tabs></tabs>
-    <router-view/>
+    <keep-alive>
+     <router-view/>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import './commom/css/reset.scss';
-import './commom/css/base.scss';
-import './commom/css/icon.scss';
-import './commom/css/variable.scss';
+import "./commom/css/reset.scss";
+import "./commom/css/base.scss";
+import "./commom/css/icon.scss";
+import "./commom/css/variable.scss";
 
 import mheader from "./components/m-header/wheader";
 import tabs from "./components/tabs/tabs";

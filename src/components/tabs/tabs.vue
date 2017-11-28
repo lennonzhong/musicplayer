@@ -16,7 +16,6 @@ export default {};
   display: flex;
   height: 40px;
   line-height: 40px;
-  padding-bottom: 10px;
   .tab-item {
     flex: 1 4;
     text-align: center;
