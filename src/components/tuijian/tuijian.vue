@@ -37,10 +37,9 @@ export default {
     return {
       sliders: [],
       toprankList: [],
-      songList:[]
+      songList: []
     };
   },
-  mounted() {},
   created() {
     this._getRecommand();
     this.getDisList();
@@ -121,17 +120,15 @@ export default {
 
   .wrapper {
     position: absolute;
-    
-    
     padding-bottom: 20px;
     overflow: hidden;
-    top: 280px;
+    top: 290px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 60px;
   }
   p {
-    span{
+    span {
       margin-right: 5px;
     }
     padding: 4px 30px;

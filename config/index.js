@@ -14,7 +14,32 @@ module.exports = {
       '/api/getDislist': {
         target: 'http://m.kugou.com/?json=true',
         changeOrigin: true,
+      },
+      '/api/getSingerClass': {
+        target: 'http://m.kugou.com/singer/class?json=true',
+        changeOrigin: true,
+      },
+      //获取歌手列表
+      //parameter  classid  http://m.kugou.com/singer/list/88?json=true
+      '/singer': {
+        target: 'http://m.kugou.com/singer',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/singer': ''
+        }
+      },
+
+      '/yy':{
+        target:'https://c.y.qq.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/yy': ''
+        }
       }
+      //获取歌手信息
+      //params  说明: 获取 歌手分类
+      //必选参数:
+      //singerid : 歌手id 3060
     },
 
     // Various Dev Server settings
