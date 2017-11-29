@@ -1,6 +1,6 @@
 <template>
     <div class="mini-player">
-        <audio src="http://ws.stream.qqmusic.qq.com/102425546.m4a?fromtag=46"></audio>
+        <audio src="http://ws.stream.qqmusic.qq.com/102425546.m4a?fromtag=46" id="audio"></audio>
         <div>
             <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg?max_age=2592000" alt="">
 
@@ -10,7 +10,7 @@
             </div>
 
             <div class="progress-circle">
-                <span class="icon-mini icon-pause-mini"></span>
+                <span :class="playStatus?'icon-pause-mini':'icon-play-mini'" @click="changeStatus"></span>
             </div>
             <div class="addsongList">
                 <span class="icon-playlist"></span>
@@ -20,7 +20,22 @@
 </template>
 <script>
 export default {
-  ///api/getSongs
+  data(){
+    return{
+      playStatus:false
+    }
+  },
+   methods:{
+     changeStatus(){
+        this.playStatus=!this.playStatus;
+        if(this.playStatus){
+ document.getElementById('audio').play();
+        }else{
+           document.getElementById('audio').pause();
+        }
+       
+     }
+   }
 };
 </script>
 <style lang="scss" scoped>
@@ -32,6 +47,7 @@ export default {
   height: 60px;
   background-color: #333;
   box-sizing: border-box;
+  z-index: 100;
   div {
     display: flex;
     img {

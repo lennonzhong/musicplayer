@@ -1,7 +1,8 @@
 <template>
-   <div class="singer" ref="wrapper">
+<div>
+<div class="singer" ref="wrapper">
        <ul>
-           <li v-for="items in SingerType" @click="goRoute(items.classid)">
+           <li v-for="items in SingerType" @click="goRoute(items)">
                 <div class="typeList">
                     <img :src="items.imgurl" alt="">
                     <div>
@@ -12,15 +13,20 @@
            </li>
        </ul>
    </div>
+   <router-view :title="msg"></router-view>
+</div>
+   
 </template>
 <script>
 import axios from "axios";
 import BScroll from "better-scroll";
+import SingerDetail from "./SingerListDetail"
 
 export default {
   data() {
     return {
-      SingerType: []
+      SingerType: [],
+      msg:''
     };
   },
   created() {
@@ -35,15 +41,18 @@ export default {
     },
     _initScroll() {
       this.$nextTick(() => {
-        this.SingerScroll = new BScroll(this.$refs.wrapper, {click: true});
+        this.SingerScroll = new BScroll(this.$refs.wrapper, { click: true });
       });
     },
-    goRoute(classid){
-        console.log(classid);
+    goRoute(item) {
+      this.msg= item.classname;
+      this.$router.push({ 
+        path:`/singer/list/${item.classid}`
+       });
     }
   },
-  components:{
-      
+  components: {
+    SingerDetail
   }
 };
 </script>
