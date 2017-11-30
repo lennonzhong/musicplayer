@@ -15,6 +15,11 @@ module.exports = {
         target: 'http://m.kugou.com/?json=true',
         changeOrigin: true,
       },
+      '/kugou': {
+        target: 'http://www.kugou.com/yy',
+        changeOrigin: true,
+        '^/kugou': ''
+      },
       '/api/getSingerClass': {
         target: 'http://m.kugou.com/singer/class?json=true',
         changeOrigin: true,

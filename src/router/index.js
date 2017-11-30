@@ -26,7 +26,7 @@ export default new Router({
       ]
     },
     {
-      path: '/singer/info/:singerid',
+      path: '/singer/info',
       component: singerDetail
     },
     {

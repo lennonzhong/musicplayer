@@ -1,20 +1,35 @@
 <template>
-    <div class="detail">
+<transition  name="slider">
+<div class="detail">
         <div class="header">
             <span class="icon-back" @click="back"></span>
             <img :src="singerinfo.imgurl.replace('{size}','400')" alt="">
         </div>
         <div class="songlist">
             <ul>
-                <li v-for="item in singerSongs">
+                <li v-for="item in singerSongs" @click="changeMusic(item)">
                     <h3>{{item.filename}}</h3>
                    <p>{{item.remark}}</p> 
                 </li>
             </ul>
         </div>
     </div>
+</transition>
+    
 </template>
 <style lang="scss" scoped>
+.slider-enter-active,
+.slider-leave-active {
+  transition: all 0.5s linear;
+}
+
+.slider-enter {
+  transform: translate3d(-100%, 0, 0);
+}
+.slider-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+
 .detail {
   position: absolute;
   z-index: 20;
@@ -22,7 +37,7 @@
   bottom: 60px;
   left: 0;
   right: 0;
-  background-color: #333;
+  background-color: #222;
   .header {
     position: relative;
     span {
@@ -31,58 +46,72 @@
       left: 10px;
       font-size: 18px;
     }
-    img{
-        width: 100%;
-        width: 100%;
+    img {
+      display: block;
+      width: 100%;
+      width: 100%;
     }
   }
-  .songlist{
-      background-color: #333;
-      ul{
-          padding: 20px;
-          li{
-              padding: 10px;
-              height: 40px;
-              h3{
-                  font-size: 16px;
-              }
-              p{
-                  margin-top: 8px;
-                font-size: 15px;
-                color: #666;
-              }
-          }
+  .songlist {
+    margin-top: 0px;
+    background-color: #222;
+    ul {
+      padding: 20px;
+      margin-bottom: 40px;
+      li {
+        padding: 10px;
+        height: 40px;
+        h3 {
+          font-size: 16px;
+        }
+        p {
+          margin-top: 8px;
+          font-size: 15px;
+          color: #666;
+          overflow: hidden;
+          height: 15px;
+        }
       }
+    }
   }
 }
 </style>
 <script>
-import axios from 'axios';
+import axios from "axios";
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   data() {
     return {
-        singerid:0,
-        singerinfo:{},
-        singerSongs:{}
+      singerid: 0
     };
-  },
-  created() {
-      this.getSingerId();
   },
   methods: {
     back() {
       this.$router.go(-1);
     },
-    getSingerId(){
-        this.singerid=this.$route.params.singerid;
-        this.getSingerInfo(this.singerid);
+    changeMusic(item) {
+      this.setPlayStatus(false);
+      axios
+        .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
+        .then(res => {
+          this.changeCurrentPlay(res.data);
+        });
+
+     // this.changeCurrentPlay(item);
     },
-    getSingerInfo(id){
-        axios.get(`/singer/info/${id}?json=true`).then((res)=>{
-            this.singerinfo=res.data.info;
-            this.singerSongs=res.data.songs.list;
-        })
-    }
+    ...mapMutations({
+      changeCurrentPlay: "setplayCurrentObj"
+    }),
+    ...mapMutations({
+      setPlayStatus: "setplayState"
+    })
+  },
+  computed: {
+    ...mapGetters(["singer"]),
+    ...mapGetters(["singerinfo"]),
+    ...mapGetters(["singerSongs"]),
+    ...mapGetters(["playStatus"])
   }
 };
 </script>

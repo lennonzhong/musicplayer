@@ -1,5 +1,6 @@
 <template>
-  <div class="singerDetail">
+<transition name="slider">
+<div class="singerDetail">
       <h1>
         <span class="icon-back" @click="back"></span>
         {{title}}</h1>
@@ -15,9 +16,12 @@
 
       <router-view></router-view>
   </div>
+</transition>
 </template>
 <script>
 import axios from "axios";
+
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -25,30 +29,56 @@ export default {
       singerList: []
     };
   },
+
   props: ["title"],
   created() {
     this.typeid = this.$route.params.typeid;
-    this._getSingerList();
+    this._getSingerList(this.typeid);
   },
   methods: {
-    _getSingerList() {
-      //"singer"+"/list/88?json=true"
-      axios.get(`singer/list/${this.typeid}?json=true`).then(res => {
+    _getSingerList(id) {
+      axios.get(`singer/list/${id}?json=true`).then(res => {
         this.singerList = res.data.singers.list.info;
       });
     },
     back() {
       this.$router.back(-1);
     },
-    enterDetail(item){
+    enterDetail(item) {
+      axios.get(`/singer/info/${item.singerid}?json=true`).then(res => {
+        this.setSingerinfo(res.data.info);
+        this.setSingerSongs(res.data.songs.list);
+        this.setSinger(item);
         this.$router.push({
-          path:`/singer/info/${item.singerid}`
-        })
-    }
+          path: "/singer/info"
+        });
+      });
+    },
+    ...mapMutations({
+      setSinger: "setSinger"
+    }),
+    ...mapMutations({
+      setSingerinfo: "setSingerInfo"
+    }),
+     ...mapMutations({
+      setSingerSongs: "setSingerSongs"
+    }),
   }
 };
 </script>
 <style lang="scss" scoped>
+.slider-enter-active,
+.slider-leave-active {
+  transition: all 0.5s linear;
+}
+
+.slider-enter {
+  transform: translate3d(-100%, 0, 0);
+}
+.slider-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+
 .singerDetail {
   position: fixed;
   z-index: 9;

@@ -20,13 +20,13 @@
 <script>
 import axios from "axios";
 import BScroll from "better-scroll";
-import SingerDetail from "./SingerListDetail"
+import SingerDetail from "./SingerListDetail";
 
 export default {
   data() {
     return {
       SingerType: [],
-      msg:''
+      msg: ""
     };
   },
   created() {
@@ -45,10 +45,10 @@ export default {
       });
     },
     goRoute(item) {
-      this.msg= item.classname;
-      this.$router.push({ 
-        path:`/singer/list/${item.classid}`
-       });
+      this.msg = item.classname;
+      this.$router.push({
+        path: `/singer/list/${item.classid}`
+      });
     }
   },
   components: {

@@ -83,6 +83,7 @@
       list-style: none;
       margin-top: 10px;
       height: 100px;
+      overflow: hidden;
       li {
         float: left;
         display: block;
@@ -130,12 +131,12 @@
 </style>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   data() {
     return {
       query: "",
-      hotKeys:[]
+      hotKeys: []
     };
   },
   created() {
@@ -158,9 +159,9 @@ export default {
         _: 1511937697390
       };
       axios("/yy/splcloud/fcgi-bin/gethotkey.fcg?", {
-        params:param
-      }).then((res) => {
-        this.hotKeys=res.data.data.hotkey;
+        params: param
+      }).then(res => {
+        this.hotKeys = res.data.data.hotkey;
       });
     }
   }

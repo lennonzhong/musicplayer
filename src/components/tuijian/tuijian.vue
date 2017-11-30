@@ -15,7 +15,7 @@
         <h1>热门歌曲推荐</h1>
         <div class="wrapper" ref="wrapper"> 
           <ul class="content"> 
-            <li v-for="item in toprankList">
+            <li v-for="item in toprankList" @click="playMusic(item)">
                 <p>
                   <span class="icon-music"></span>
                   {{item.filename}}
@@ -31,6 +31,10 @@ import VueAwesomeSwiper from "vue-awesome-swiper";
 require("swiper/dist/css/swiper.css");
 import Bscroll from "better-scroll";
 import axios from "axios";
+
+import { mapMutations } from "vuex";
+
+//ttp://www.kugou.com/yy/index.php?r=play/getdata&hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97
 
 export default {
   data() {
@@ -63,7 +67,7 @@ export default {
         // console.log(res.data.data);
         this.toprankList = res.data.data;
         this.$nextTick(() => {
-          this.scroll = new Bscroll(this.$refs.wrapper, {});
+          this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
         });
       });
     },
@@ -89,7 +93,32 @@ export default {
           paginationClickable: true
         });
       });
-    }
+    },
+    playMusic(item) {
+      this.setPlayStatus(false);
+      axios
+        .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
+        .then(res => {
+          console.log(res.data.data);
+          let data = {
+            song_name: res.data.data.song_name,
+            author_name:res.data.data.author_name,
+            img:res.data.data.img,
+            lyrics:res.data.data.lyrics,
+            play_url:res.data.data.play_url,
+            timelength:res.data.data.timelength
+          };
+          console.log(data);
+          this.setPlayCurrentObj(data);
+        });
+    },
+
+    ...mapMutations({
+      setPlayCurrentObj: "setplayCurrentObj"
+    }),
+    ...mapMutations({
+      setPlayStatus: "setplayState"
+    })
   }
 };
 </script>
@@ -126,13 +155,18 @@ export default {
     left: 0;
     right: 0;
     bottom: 60px;
+    ul {
+      li {
+        display: block;
+      }
+    }
   }
   p {
     span {
       margin-right: 5px;
     }
     padding: 4px 30px;
-    height: 20px;
+    height: 25px;
     line-height: 28px;
     text-align: left;
     color: white;

@@ -1,12 +1,12 @@
 <template>
     <div class="mini-player">
-        <audio src="http://ws.stream.qqmusic.qq.com/102425546.m4a?fromtag=46" id="audio"></audio>
+        <audio v-bind:src="playCurrentObj.play_url" id="audio" autoplay @canplay="changeButton()"></audio>
         <div>
-            <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg?max_age=2592000" alt="">
+            <img :src="playCurrentObj.img" alt="">
 
             <div class="songinfo">
-                 <h5>刚刚好</h5>
-                <p>薛之谦</p>
+                 <h5>{{playCurrentObj.song_name}}</h5>
+                <p>{{playCurrentObj.author_name}}</p>
             </div>
 
             <div class="progress-circle">
@@ -19,23 +19,33 @@
     </div>
 </template>
 <script>
+import { mapMutations, mapGetters } from "vuex";
+
 export default {
-  data(){
-    return{
-      playStatus:false
-    }
+  methods: {
+    changeButton() {
+      this.changePlayStatus(!this.playStatus);
+    },
+    changeStatus() {
+      if (this.playStatus) {
+        document.getElementById("audio").play();
+        this.changePlayStatus(!this.playStatus);
+      } else {
+        document.getElementById("audio").pause();
+        this.changePlayStatus(!this.playStatus);
+      }
+    },
+    ...mapMutations({
+      changePlayStatus: "setplayState"
+    })
   },
-   methods:{
-     changeStatus(){
-        this.playStatus=!this.playStatus;
-        if(this.playStatus){
- document.getElementById('audio').play();
-        }else{
-           document.getElementById('audio').pause();
-        }
-       
-     }
-   }
+  computed: {
+    ...mapGetters(["playCurrentObj"]),
+    ...mapGetters(["playStatus"]),
+    canPlay: function() {
+      return document.getElementById("audio").oncanplay == true;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -48,6 +58,7 @@ export default {
   background-color: #333;
   box-sizing: border-box;
   z-index: 100;
+  border-top: 1px solid gray;
   div {
     display: flex;
     img {
@@ -55,7 +66,7 @@ export default {
       height: 40px;
       border-radius: 50%;
       margin: 10px;
-      animation: rotate 2s linear infinite;
+      animation: rotate 10s linear infinite;
     }
     .songinfo {
       flex: 1 1;
