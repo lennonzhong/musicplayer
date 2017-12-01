@@ -95,10 +95,19 @@ export default {
       axios
         .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
         .then(res => {
-          this.changeCurrentPlay(res.data);
+          let data = {
+            song_name: res.data.data.song_name,
+            author_name: res.data.data.author_name,
+            img: res.data.data.img,
+            lyrics: res.data.data.lyrics,
+            play_url: res.data.data.play_url,
+            timelength: res.data.data.timelength
+          };
+
+          this.changeCurrentPlay(data);
         });
 
-     // this.changeCurrentPlay(item);
+      // this.changeCurrentPlay(item);
     },
     ...mapMutations({
       changeCurrentPlay: "setplayCurrentObj"

@@ -1,10 +1,12 @@
 <template>
-   <div class="wrapper" ref="wrapper">
+     <div>
+       <div class="wrapper" ref="wrapper">
            <ul>
-               <li v-for="item in rankList">
+               <li v-for="item in rankList" @click="enterDetail(item.id)">
                    <div class="rank-item">
                      <img :src="item.picUrl" alt="">
                      <div>
+                       <h1>{{item.topTitle}}</h1>
                        <p v-for="(song,index) in item.songList">
                          {{index+1}}.&nbsp;{{song.songname}}-{{song.singername}}
                        </p>
@@ -13,6 +15,8 @@
                </li>
            </ul>
        </div>
+       <router-view></router-view>
+     </div>
 </template>
 <script>
 import axios from "axios";
@@ -28,7 +32,32 @@ export default {
     this._initScroll();
   },
   methods: {
+    enterDetail(topid){
+         this.$router.push({
+           path:`/rank/${topid}`
+         });
+    },
     getRankList() {
+
+//https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?
+// tpl:3
+// page:detail
+// date:2017_48
+// topid:26
+// type:top
+// song_begin:0
+// song_num:30
+// g_tk:5381
+// jsonpCallback:MusicJsonCallbacktoplist
+// loginUin:0
+// hostUin:0
+// format:jsonp
+// inCharset:utf8
+// outCharset:utf-8
+// notice:0
+// platform:yqq
+// needNewCode:0
+
       let param={
         g_tk:792116527,
         uin:0,
@@ -55,6 +84,7 @@ export default {
     }
   }
 };
+
 </script>
 <style lang="scss" scoped>
 .wrapper {
@@ -80,13 +110,21 @@ export default {
         div{
           display: block;
           padding: 20px 15px;
+          padding-top: 10px;
           overflow: hidden;
+          h1{
+             margin-bottom: 5px;
+             white-space: nowrap;
+             text-overflow: ellipsis;
+             overflow: hidden;
+          }
           p{
               line-height: 20px;
               font-size: 12px;
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;
+             
           }
         }
       }

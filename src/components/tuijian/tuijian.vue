@@ -34,8 +34,6 @@ import axios from "axios";
 
 import { mapMutations } from "vuex";
 
-//ttp://www.kugou.com/yy/index.php?r=play/getdata&hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97
-
 export default {
   data() {
     return {
@@ -64,7 +62,6 @@ export default {
       });
 
       axios.get("/api/getDislist", data).then(res => {
-        // console.log(res.data.data);
         this.toprankList = res.data.data;
         this.$nextTick(() => {
           this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
@@ -99,7 +96,6 @@ export default {
       axios
         .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
         .then(res => {
-          console.log(res.data.data);
           let data = {
             song_name: res.data.data.song_name,
             author_name:res.data.data.author_name,
@@ -108,7 +104,6 @@ export default {
             play_url:res.data.data.play_url,
             timelength:res.data.data.timelength
           };
-          console.log(data);
           this.setPlayCurrentObj(data);
         });
     },

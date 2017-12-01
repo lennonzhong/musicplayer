@@ -1,6 +1,6 @@
 <template>
     <div class="mini-player">
-        <audio v-bind:src="playCurrentObj.play_url" id="audio" autoplay @canplay="changeButton()"></audio>
+        <audio v-bind:src="playCurrentObj.play_url" id="audio" autoplay @canplay="changeButton()" @ended="changeButton()"></audio>
         <div>
             <img :src="playCurrentObj.img" alt="">
 
@@ -27,13 +27,12 @@ export default {
       this.changePlayStatus(!this.playStatus);
     },
     changeStatus() {
-      if (this.playStatus) {
-        document.getElementById("audio").play();
-        this.changePlayStatus(!this.playStatus);
+      if (!this.playStatus) {
+         document.getElementById("audio").play();
       } else {
-        document.getElementById("audio").pause();
-        this.changePlayStatus(!this.playStatus);
+        document.getElementById("audio").pause();       
       }
+      this.changePlayStatus(!this.playStatus);
     },
     ...mapMutations({
       changePlayStatus: "setplayState"
