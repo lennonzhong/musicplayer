@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     getSingerClass() {
-      axios.get("/api/getSingerClass").then(res => {
+      axios.get("/kugou/singer/class?json=true").then(res => {
         this.SingerType = res.data.list;
       });
     },

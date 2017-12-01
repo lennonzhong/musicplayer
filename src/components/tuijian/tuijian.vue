@@ -1,6 +1,7 @@
 <template>
-    <div class="tuijian" ref="tuijian">
-        <div class="swiper-container">
+    <div class="tuijian" ref="wrapper">
+        <div>
+          <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="item in sliders">
                 <a v-bind:href="item.linkUrl">
@@ -8,12 +9,12 @@
                 </a>
             </div>
           </div>
-            <div class="swiper-pagination" id="pagination">
+          <div class="swiper-pagination" id="pagination">
                 
-            </div>
+          </div>
         </div>
         <h1>热门歌曲推荐</h1>
-        <div class="wrapper" ref="wrapper"> 
+        <div class="wrapper"> 
           <ul class="content"> 
             <li v-for="item in toprankList" @click="playMusic(item)">
                 <p>
@@ -22,6 +23,7 @@
                   </p>
             </li> 
           </ul> 
+        </div>
         </div>
     </div>
 </template>
@@ -63,13 +65,26 @@ export default {
         ein: 29
       });
 
-      axios.get("/api/getDislist", data).then(res => {
-        // console.log(res.data.data);
-        this.toprankList = res.data.data;
-        this.$nextTick(() => {
-          this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
+      axios
+        .get("/kugou", {
+          params: {
+            json: true
+          }
+        })
+        .then(res => {
+          console.log(res.data);
+          this.toprankList = res.data.data;
+          this.$nextTick(() => {
+            this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
+          });
         });
-      });
+      // axios.get("/api/getDislist", data).then(res => {
+      //   // console.log(res.data.data);
+      //   this.toprankList = res.data.data;
+      //   this.$nextTick(() => {
+      //     this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
+      //   });
+      // });
     },
 
     _getRecommand() {
@@ -97,19 +112,18 @@ export default {
     playMusic(item) {
       this.setPlayStatus(false);
       axios
-        .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
+        .get(`/wkugou/yy/index.php?r=play/getdata&hash=${item.hash}`)
         .then(res => {
-          console.log(res.data.data);
           let data = {
             song_name: res.data.data.song_name,
-            author_name:res.data.data.author_name,
-            img:res.data.data.img,
-            lyrics:res.data.data.lyrics,
-            play_url:res.data.data.play_url,
-            timelength:res.data.data.timelength
+            author_name: res.data.data.author_name,
+            img: res.data.data.img,
+            lyrics: res.data.data.lyrics,
+            play_url: res.data.data.play_url,
+            timelength: res.data.data.timelength
           };
-          console.log(data);
           this.setPlayCurrentObj(data);
+          console.log(res.data);
         });
     },
 
@@ -125,6 +139,13 @@ export default {
 <style lang="scss" scoped>
 .tuijian {
   width: 100%;
+  overflow: hidden;
+  position: absolute;
+  padding-bottom: 20px;
+  top: 85px;
+  left: 0;
+  right: 0;
+  bottom: 60px;
   .swiper-container {
     width: 100%;
     .swiper-slide {
@@ -148,13 +169,6 @@ export default {
   }
 
   .wrapper {
-    position: absolute;
-    padding-bottom: 20px;
-    overflow: hidden;
-    top: 290px;
-    left: 0;
-    right: 0;
-    bottom: 60px;
     ul {
       li {
         display: block;

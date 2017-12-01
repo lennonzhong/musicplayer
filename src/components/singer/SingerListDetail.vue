@@ -13,7 +13,6 @@
               </li>
           </ul>
       </div>
-
       <router-view></router-view>
   </div>
 </transition>
@@ -37,7 +36,7 @@ export default {
   },
   methods: {
     _getSingerList(id) {
-      axios.get(`singer/list/${id}?json=true`).then(res => {
+      axios.get(`/kugou/singer/list/${id}?json=true`).then(res => {
         this.singerList = res.data.singers.list.info;
       });
     },
@@ -45,7 +44,7 @@ export default {
       this.$router.back(-1);
     },
     enterDetail(item) {
-      axios.get(`/singer/info/${item.singerid}?json=true`).then(res => {
+      axios.get(`/kugou/singer/info/${item.singerid}?json=true`).then(res => {
         this.setSingerinfo(res.data.info);
         this.setSingerSongs(res.data.songs.list);
         this.setSinger(item);
