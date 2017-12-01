@@ -93,9 +93,9 @@ export default {
     changeMusic(item) {
       this.setPlayStatus(false);
       axios
-        .get(`/kugou/index.php?r=play/getdata&hash=${item.hash}`)
+        .get(`/wkugou/yy/index.php?r=play/getdata&hash=${item.hash}`)
         .then(res => {
-          let data = {
+          let data={
             song_name: res.data.data.song_name,
             author_name: res.data.data.author_name,
             img: res.data.data.img,
@@ -103,7 +103,6 @@ export default {
             play_url: res.data.data.play_url,
             timelength: res.data.data.timelength
           };
-
           this.changeCurrentPlay(data);
         });
 

@@ -38,40 +38,18 @@ export default {
          });
     },
     getRankList() {
-
-//https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?
-// tpl:3
-// page:detail
-// date:2017_48
-// topid:26
-// type:top
-// song_begin:0
-// song_num:30
-// g_tk:5381
-// jsonpCallback:MusicJsonCallbacktoplist
-// loginUin:0
-// hostUin:0
-// format:jsonp
-// inCharset:utf8
-// outCharset:utf-8
-// notice:0
-// platform:yqq
-// needNewCode:0
-
-      let param={
-        g_tk:792116527,
-        uin:0,
-        format:"json",
-        inCharset:"utf-8",
-        outCharset:"utf-8",
-        notice:0,
-        platform:"h5",
-        needNewCode:1,
-        _:1511937697390,
-      }
-      axios
-        .get("/yy/v8/fcg-bin/fcg_myqq_toplist.fcg",{
-          params:param
+      axios.get("/yy/v8/fcg-bin/fcg_myqq_toplist.fcg", {
+          params: {
+            g_tk: 5381,
+            uin: 0,
+            format: "json",
+            inCharset: "utf-8",
+            outCharset: "utf-8",
+            notice: 0,
+            platform: "h5",
+            needNewCode: 1,
+            _: 1511937697390
+          }
         })
         .then(res => {
           this.rankList = res.data.data.topList;
@@ -107,24 +85,17 @@ export default {
           flex: 0 0 100px;
           height: 100px;
         }
-        div{
+        div {
           display: block;
           padding: 20px 15px;
           padding-top: 10px;
           overflow: hidden;
-          h1{
-             margin-bottom: 5px;
-             white-space: nowrap;
-             text-overflow: ellipsis;
-             overflow: hidden;
-          }
-          p{
-              line-height: 20px;
-              font-size: 12px;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;
-             
+          p {
+            line-height: 20px;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
         }
       }
