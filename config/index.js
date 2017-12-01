@@ -11,36 +11,33 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/getDislist': {
-        target: 'http://m.kugou.com/?json=true',
-        changeOrigin: true,
-      },
-      '/kugou': {
-        target: 'http://www.kugou.com/yy',
-        changeOrigin: true,
-        '^/kugou': ''
-      },
-      '/api/getSingerClass': {
-        target: 'http://m.kugou.com/singer/class?json=true',
-        changeOrigin: true,
-      },
+
       //获取歌手列表
       //parameter  classid  http://m.kugou.com/singer/list/88?json=true
-      '/singer': {
-        target: 'http://m.kugou.com/singer',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/singer': ''
-        }
-      },
 
-      '/yy':{
-        target:'https://c.y.qq.com',
+      '/yy': {
+        target: 'https://c.y.qq.com',
         changeOrigin: true,
         pathRewrite: {
           '^/yy': ''
         }
-      }
+      },
+
+      '/kugou': {
+        target: 'http://m.kugou.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/kugou': ''
+        }
+      },
+      '/wkugou': {
+        target: 'http://www.kugou.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wkugou': ''
+        }
+      },
+
       //获取歌手信息
       //params  说明: 获取 歌手分类
       //必选参数:

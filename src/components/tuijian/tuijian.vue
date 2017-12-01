@@ -76,13 +76,6 @@ export default {
             this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
           });
         });
-      // axios.get("/api/getDislist", data).then(res => {
-      //   // console.log(res.data.data);
-      //   this.toprankList = res.data.data;
-      //   this.$nextTick(() => {
-      //     this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
-      //   });
-      // });
     },
 
     _getRecommand() {

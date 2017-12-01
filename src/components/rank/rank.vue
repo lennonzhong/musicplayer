@@ -32,13 +32,14 @@ export default {
     this._initScroll();
   },
   methods: {
-    enterDetail(topid){
-         this.$router.push({
-           path:`/rank/${topid}`
-         });
+    enterDetail(topid) {
+      this.$router.push({
+        path: `/rank/${topid}`
+      });
     },
     getRankList() {
-      axios.get("/yy/v8/fcg-bin/fcg_myqq_toplist.fcg", {
+      axios
+        .get("/yy/v8/fcg-bin/fcg_myqq_toplist.fcg", {
           params: {
             g_tk: 5381,
             uin: 0,
@@ -62,7 +63,6 @@ export default {
     }
   }
 };
-
 </script>
 <style lang="scss" scoped>
 .wrapper {
@@ -90,6 +90,13 @@ export default {
           padding: 20px 15px;
           padding-top: 10px;
           overflow: hidden;
+          h1 {
+            line-height: 20px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 20px;
+          }
           p {
             line-height: 20px;
             font-size: 12px;
