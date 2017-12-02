@@ -16,7 +16,7 @@
         <h1>热门歌曲推荐</h1>
         <div class="wrapper"> 
           <ul class="content"> 
-            <li v-for="item in toprankList" @click="playMusic(item)">
+            <li v-for="item in toprankList" @tap.stop="playMusic(item)">
                 <p>
                   <span class="icon-music"></span>
                   {{item.filename}}
@@ -70,14 +70,31 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
           this.toprankList = res.data.data;
           this.$nextTick(() => {
-            this.scroll = new Bscroll(this.$refs.wrapper, { click: true });
+            if (!this.scroll) {
+              this.scroll = new Bscroll(this.$refs.wrapper, {
+                probeType: 1,
+                tap: true
+              });
+            } else {
+              this.scroll.refresh();
+            }
           });
         });
     },
-
+    mounted() {
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new Bscroll(this.$refs.wrapper, {
+            probeType: 1,
+            tap: true
+          });
+        } else {
+          this.scroll.refresh();
+        }
+      });
+    },
     _getRecommand() {
       getRecommand().then(res => {
         if (res.code === 0) {
@@ -110,8 +127,7 @@ export default {
             author_name: res.data.data.author_name,
             img: res.data.data.img,
             lyrics: res.data.data.lyrics,
-            play_url: res.data.data.play_url,
-            timelength: res.data.data.timelength
+            play_url: res.data.data.play_url
           };
           this.setPlayCurrentObj(data);
           console.log(res.data);

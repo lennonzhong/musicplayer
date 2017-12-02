@@ -21,6 +21,7 @@
 import axios from "axios";
 
 import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
@@ -59,9 +60,9 @@ export default {
     ...mapMutations({
       setSingerinfo: "setSingerInfo"
     }),
-     ...mapMutations({
+    ...mapMutations({
       setSingerSongs: "setSingerSongs"
-    }),
+    })
   }
 };
 </script>

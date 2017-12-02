@@ -1,5 +1,6 @@
 <template>
-    <div class="rankList">
+<transition name="slider">
+<div class="rankList">
         <div class="header">
             <span  class="icon-back" @click="back"></span>
             <div>
@@ -25,9 +26,12 @@
                 
         </div>
     </div>
+</transition>
+    
 </template>
 <script>
 import axios from "axios";
+import {mapMutations} from 'vuex';
 export default {
   data() {
     return {
@@ -38,10 +42,21 @@ export default {
     let topid = this.$route.params.topid;
     this.getSongList(topid);
   },
+
   methods: {
-      playMusic(item){
-          console.log(item);
-      },
+    playMusic(item) {
+      // let lyric
+      let data = {
+        song_name: item.data.songname,
+        author_name: item.data.singer[0].name,
+        img: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data
+          .albummid}.jpg?max_age=2592000`,
+        lyrics: "",
+        play_url: `http://dl.stream.qqmusic.qq.com/C400${item.data
+          .songmid}.m4a?guid=9296629668&vkey=2554DF30DB6CF3CD05AA471F48F92D6465C9406D427D15F750B5EFCA17E3DADFAA840FF15F1F53D5AF6A3A25B8A31AD6A6E3BE0FA8C354F2&uin=&fromtag=999`
+      };
+      this.changeMusicItem(data);
+    },
     back() {
       this.$router.go(-1);
     },
@@ -72,17 +87,32 @@ export default {
           //to do list
           this.songLists = res.data;
         });
-    }
+    },
+    ...mapMutations({
+        changeMusicItem:'setplayCurrentObj'
+    })
   }
 };
-//albummid
-//https://y.gtimg.cn/music/photo_new/T002R300x300M000   001L7UIu3GXVtT   .jpg?max_age=2592000
-//https://y.gtimg.cn/music/photo_new/T002R300x300M000   002NRfsI2v6IJA   .jpg?max_age=2592000
-//https://y.gtimg.cn/music/photo_new/T002R300x300M000   000tEPEw46vmSj   .jpg?max_age=2592000
-//https://y.gtimg.cn/music/photo_new/T002R300x300M000   000d1ctJ1EdiRs   .jpg?max_age=2592000
-//https://y.gtimg.cn/music/photo_new/T002R300x300M000   003Pz93v05YAiP   .jpg?max_age=2592000
+
+//https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg
+//?callback=MusicJsonCallback_lrc&pcachetime=1512179063685&songmid=001PedLg4dakYI&g_tk=5381&jsonpCallback=MusicJsonCallback_lrc&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0
 </script>
 <style lang="scss" scoped>
+
+
+.slider-enter-active,
+.slider-leave-active{
+    transition: all 0.5s linear;
+}
+
+.slider-enter{
+  transform: translate3d(-100%,0,0);
+}
+.slider-leave-to{
+    transform: translate3d(100%,0,0);
+}
+
+
 .rankList {
   position: absolute;
   top: 0;
@@ -116,10 +146,10 @@ export default {
     }
   }
   .list {
-      box-sizing: border-box;
-      padding: 0 25px;
-      padding-top: 20px;
-      padding-bottom: 60px;
+    box-sizing: border-box;
+    padding: 0 25px;
+    padding-top: 20px;
+    padding-bottom: 60px;
     div {
       display: flex;
       height: 60px;
@@ -130,19 +160,19 @@ export default {
         text-align: center;
       }
       .list-content {
-          flex: 1 1;
-          display: block;
-          padding: 10px 0;
+        flex: 1 1;
+        display: block;
+        padding: 10px 0;
         h3 {
-            height: 20px;
-            line-height: 20px;
-            font-size: 16px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 16px;
         }
         p {
-            height: 20px;
-            font-size: 14px;
-             line-height: 20px;
-             color: #666;
+          height: 20px;
+          font-size: 14px;
+          line-height: 20px;
+          color: #666;
         }
       }
     }

@@ -101,11 +101,10 @@ export default {
             img: res.data.data.img,
             lyrics: res.data.data.lyrics,
             play_url: res.data.data.play_url,
-            timelength: res.data.data.timelength
           };
           this.changeCurrentPlay(data);
         });
-
+       
       // this.changeCurrentPlay(item);
     },
     ...mapMutations({

@@ -10,7 +10,6 @@ const state = {
         //上面是歌词
         "play_url": "http:\/\/fs.w.kugou.com\/201711301412\/8c891246a34cd3af16052921d0747ae9\/G117\/M0B\/17\/07\/tQ0DAFodJrSAFh0FABGmBbr_PhM442.mp3",
         //播放地址
-        "timelength": 72000,  //时间长度 
     },
     playstate: false
 }

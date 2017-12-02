@@ -38,6 +38,15 @@ module.exports = {
         }
       },
 
+      '/yyimg':{
+        target: 'https://y.gtimg.cn/music/photo_new/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/yyimg': ''
+        }
+       // https://y.gtimg.cn/music/photo_new/T002R300x300M000   001L7UIu3GXVtT   .jpg?max_age=2592000
+      }
+
       //获取歌手信息
       //params  说明: 获取 歌手分类
       //必选参数:
