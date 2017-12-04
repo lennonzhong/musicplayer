@@ -4,7 +4,9 @@
         <div class="player-detail" v-show="showStatus">
           <span class="icon-back" @click="togglePlayer()"></span>
           <div>
-              <h1>{{playCurrentObj.song_name}}</h1>
+              <h1>
+                <marquee> {{playCurrentObj.song_name}}</marquee>
+               </h1>
               <img :src="playCurrentObj.img" alt=""> 
               <div class="lyric"></div>
               <div class="controls">
@@ -138,6 +140,7 @@ export default {
   }
   div {
     h1 {
+      padding: 0 60px;
       text-align: center;
       line-height: 50px;
       height: 50px;

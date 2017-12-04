@@ -1,7 +1,7 @@
 <template>
    <div class="content">
        <div class="searchbox">
-        <i class="icon-search"></i>
+        <i class="icon-search" @click="search(query)"></i>
            <input ref="query" v-model="query" class="box" placeholder="搜索歌曲、歌手"/>
            <i @click="clear" v-show="query" class="icon-dismiss"></i>
        </div>
@@ -9,7 +9,7 @@
        <div class="hot-search clearfix">
            <h1>热门搜索</h1>
            <ul class="clearfix">
-               <li v-for="item in hotKeys">
+               <li v-for="item in hotKeys" @click="search(item.k)">
                  {{item.k}}
                </li>
            </ul>
@@ -24,6 +24,14 @@
                 双世宠妃  <span class="icon-close"></span>
             </li>
         </ul>
+       </div>
+
+       <div class="search-result" v-show="searchShow">
+         <ul>
+           <li v-for="result in searchResult" @click="changePlay(result)">
+                 {{result.filename}}
+           </li>
+         </ul>
        </div>
    </div>
 </template>
@@ -60,6 +68,7 @@
       position: relative;
       top: 0px;
       font-size: 14px;
+      color: white;
     }
     i.icon-dismiss {
       position: absolute;
@@ -123,6 +132,29 @@
     }
   }
 
+  .search-result {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background-color: #222;
+    overflow: scroll;
+    ul {
+      height: auto;
+      li {
+        padding: 0 20px;
+        height: 40px;
+        line-height: 40px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 14px;
+      }
+    }
+  }
+
   .clearfix {
     overflow: auto;
     zoom: 1;
@@ -132,19 +164,62 @@
 
 <script>
 import axios from "axios";
+import {mapMutations} from 'vuex';
+
+
 export default {
   data() {
     return {
       query: "",
-      hotKeys: []
+      hotKeys: [],
+      searchResult: [],
+      searchShow: false
     };
   },
   created() {
     this.getHotKeys();
   },
   methods: {
+    search(query) {
+      this.query = query;
+      this.searchShow = true;
+      axios
+        .get("/searchKugou", {
+          params: {
+            keyword: this.query,
+            page: 1,
+            pagesize: 30,
+            showtype: 1
+          }
+        })
+        .then(res => {
+          console.log(res.data.data.info);
+          this.searchResult = res.data.data.info;
+        });
+    },
+    changePlay(item) {
+      let data = {
+        song_name: item.filename,
+        author_name: item.singername,
+        img: "",
+        lyrics: "",
+        play_url: ""
+      };
+     this.searchShow=false;
+      axios(
+        `/wkugou/yy/index.php?r=play/getdata&hash=${item.hash}`,
+        {}
+      ).then(res => {
+        data.img=res.data.data.img;
+        data.lyrics=res.data.data.lyrics;
+        data.play_url=res.data.data.play_url;
+
+        this.changeMusic(data);
+      });
+    },
     clear() {
       this.query = "";
+      this.searchShow=false;
     },
     getHotKeys() {
       let param = {
@@ -163,7 +238,13 @@ export default {
       }).then(res => {
         this.hotKeys = res.data.data.hotkey;
       });
-    }
+    },
+    ...mapMutations({
+         changeMusic:'setplayCurrentObj'
+    })
+  },
+  computed:{
+    
   }
 };
 </script>

@@ -45,7 +45,16 @@ module.exports = {
           '^/yyimg': ''
         }
        // https://y.gtimg.cn/music/photo_new/T002R300x300M000   001L7UIu3GXVtT   .jpg?max_age=2592000
+      },
+      '/searchKugou':{
+        target: 'http://mobilecdn.kugou.com/api/v3/search/song',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/searchKugou': ''
+        }
+       // https://y.gtimg.cn/music/photo_new/T002R300x300M000   001L7UIu3GXVtT   .jpg?max_age=2592000
       }
+
 
       //获取歌手信息
       //params  说明: 获取 歌手分类

@@ -31,7 +31,8 @@
 </template>
 <script>
 import axios from "axios";
-import {mapMutations} from 'vuex';
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
@@ -46,25 +47,49 @@ export default {
   methods: {
     playMusic(item) {
       // let lyric
-      let data = {
-        song_name: item.data.songname,
-        author_name: item.data.singer[0].name,
-        img: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data
-          .albummid}.jpg?max_age=2592000`,
-        lyrics: "",
-        play_url: `http://dl.stream.qqmusic.qq.com/C400${item.data
-          .songmid}.m4a?guid=9296629668&vkey=2554DF30DB6CF3CD05AA471F48F92D6465C9406D427D15F750B5EFCA17E3DADFAA840FF15F1F53D5AF6A3A25B8A31AD6A6E3BE0FA8C354F2&uin=&fromtag=999`
+
+      let url = "/yy/base/fcgi-bin/fcg_music_express_mobile3.fcg?";
+      let data1 = {
+        g_tk: 5381,
+        loginUin: 0,
+        hostUin: 0,
+        format: "json",
+        inCharset: "utf8",
+        outCharset: "utf-8",
+        notice: 0,
+        platform: "yqq",
+        needNewCode: 0,
+        cid: 205361747,
+        uin: 0,
+        songmid: item.data.songmid,
+        filename: `C400${item.data.songmid}.m4a`,
+        guid: 9296629668
       };
-      this.changeMusicItem(data);
+
+      axios
+        .get(url, {
+          params: data1
+        })
+        .then(res => {
+          console.log();
+
+          let data = {
+            song_name: item.data.songname,
+            author_name: item.data.singer[0].name,
+            img: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.data
+              .albummid}.jpg?max_age=2592000`,
+            lyrics: "",
+            play_url: `http://dl.stream.qqmusic.qq.com/C400${item.data
+              .songmid}.m4a?guid=9296629668&vkey=${res.data.data.items[0].vkey}&uin=&fromtag=999`
+          };
+          this.changeMusicItem(data);
+        });
     },
+    getVkey(item) {},
     back() {
       this.$router.go(-1);
     },
     getSongList(topid) {
-      //https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg
-
-      //pic_album
-
       axios
         .get("/yy/v8/fcg-bin/fcg_v8_toplist_cp.fcg", {
           params: {
@@ -89,7 +114,7 @@ export default {
         });
     },
     ...mapMutations({
-        changeMusicItem:'setplayCurrentObj'
+      changeMusicItem: "setplayCurrentObj"
     })
   }
 };
@@ -98,20 +123,17 @@ export default {
 //?callback=MusicJsonCallback_lrc&pcachetime=1512179063685&songmid=001PedLg4dakYI&g_tk=5381&jsonpCallback=MusicJsonCallback_lrc&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0
 </script>
 <style lang="scss" scoped>
-
-
 .slider-enter-active,
-.slider-leave-active{
-    transition: all 0.5s linear;
+.slider-leave-active {
+  transition: all 0.5s linear;
 }
 
-.slider-enter{
-  transform: translate3d(-100%,0,0);
+.slider-enter {
+  transform: translate3d(-100%, 0, 0);
 }
-.slider-leave-to{
-    transform: translate3d(100%,0,0);
+.slider-leave-to {
+  transform: translate3d(100%, 0, 0);
 }
-
 
 .rankList {
   position: absolute;
